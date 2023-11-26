@@ -29,6 +29,9 @@ namespace Wind.rdr
 		[DllImport("user32.dll")]
 		private static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
 
+		[DllImport("USER32.DLL")]
+		private static extern bool SetForegroundWindow(IntPtr hWnd);
+
 		public class Window
 		{
 			public string Title { get; set; }
@@ -82,10 +85,23 @@ namespace Wind.rdr
 		}
 
 		// 手順
-		[自分("で")]
-		public プロセスウィンドウ[] ウィンドウ一覧取得する()
+		[自分で, 手順名("ウィンドウ一覧を", "取得する")]
+		public プロセスウィンドウ[] ウィンドウ一覧を取得する()
 		{
 			return GetWindowList();
+		}
+
+		[手順名("ウィンドウを", "選択する")]
+		public bool ウィンドウを選択する([という] int ウィンドウハンドル)
+		{
+			IntPtr handle = new IntPtr(ウィンドウハンドル);
+			return SetForegroundWindow(handle);
+		}
+
+		[手順名("ウィンドウへ", "フォーカスする")]
+		public bool ウィンドウへフォーカスする([という] int ウィンドウハンドル)
+		{
+			return ウィンドウを選択する(ウィンドウハンドル);
 		}
 
 		public class プロセスウィンドウ : IProduireClass
