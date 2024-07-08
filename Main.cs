@@ -147,12 +147,6 @@ namespace Wind.rdr
 			uint cbAttribute
 		);
 
-		public void ダークタイトルバー適用する([へ] int ウィンドウハンドル)
-		{
-			IntPtr handle = new IntPtr(ウィンドウハンドル);
-			ダークタイトルバー適用する(handle);
-		}
-
 		public void ダークタイトルバー適用する([へ] IntPtr ウィンドウハンドル)
 		{
 			int value = 1;
