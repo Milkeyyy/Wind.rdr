@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Wind.rdr")]
-[assembly: AssemblyCopyright("Copyright (C) 2023 Milkeyyy")]
+[assembly: AssemblyCopyright("Copyright (C) 2024 Milkeyyy")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
