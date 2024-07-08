@@ -1,8 +1,4 @@
-﻿/* 
-	参考: https://mocotan.hatenablog.com/entry/2017/10/13/123957
-*/
-
-using Produire; // utopiat.Host.dllを参照すること
+﻿using Produire;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -10,8 +6,12 @@ using System.Text;
 
 namespace Wind.rdr
 {
-	public class Wind : IProduireStaticClass // これを実装しないとプロデルから利用できない
+	public class Wind : IProduireStaticClass
 	{
+		/* 
+			参考: https://mocotan.hatenablog.com/entry/2017/10/13/123957
+		*/
+
 		private delegate bool EnumWindowsDelegate(IntPtr hWnd, IntPtr lParam);
 		
 		[DllImport("user32.dll")]
@@ -120,6 +120,43 @@ namespace Wind.rdr
 			public string タイトル { get { return title; } }
 			public int ハンドル { get { return handle.ToInt32(); } }
 			public int プロセスID { get { return processId; } }
+		}
+
+		// ウィンドウの属性
+		public enum DWMWINDOWATTRIBUTE
+		{
+			DWMWA_USE_IMMERSIVE_DARK_MODE = 20,
+			DWMWA_WINDOW_CORNER_PREFERENCE = 33,
+			DWMWA_MICA_EFFECT = 1029,
+			DWMWA_LAST
+		}
+
+		public enum DWM_WINDOW_CORNER_PREFERENCE
+		{
+			DWMWCP_DEFAULT = 0,
+			DWMWCP_DONOTROUND = 1,
+			DWMWCP_ROUND = 2,
+			DWMWCP_ROUNDSMALL = 3
+		}
+
+		[DllImport("dwmapi.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
+		internal static extern int DwmSetWindowAttribute(
+			IntPtr hwnd,
+			DWMWINDOWATTRIBUTE attribute,
+			ref int pvAttribute,
+			uint cbAttribute
+		);
+
+		public void ダークタイトルバー適用する([へ] int ウィンドウハンドル)
+		{
+			IntPtr handle = new IntPtr(ウィンドウハンドル);
+			ダークタイトルバー適用する(handle);
+		}
+
+		public void ダークタイトルバー適用する([へ] IntPtr ウィンドウハンドル)
+		{
+			int value = 1;
+			_ = DwmSetWindowAttribute(ウィンドウハンドル, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref value, (uint)Marshal.SizeOf(typeof(int)));
 		}
 	}
 }
